@@ -7,6 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Joseph W Becher <jwbecher@drazisil.com>",
+  "author": "Joe Becher <jwbecher@drazisil.com>",
   "license": "MIT"
 }
