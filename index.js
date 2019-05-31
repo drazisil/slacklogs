@@ -1,4 +1,6 @@
+const fs = require('fs')
 require('dotenv-safe').config()
+const moment = require('moment')
 
 const { WebClient } = require('@slack/web-api')
 
@@ -8,6 +10,21 @@ console.log('Getting started with Node Slack SDK')
 const web = new WebClient(process.env.SLACK_API_TOKEN)
 // The current date
 const currentTime = new Date().toTimeString()
+
+async function saveAsCSV(filename, data) {
+  const file = fs.createWriteStream(filename)
+  file.write(
+    'author_handle, author_name, created_at, text, timestamp, tweet_source\n'
+  )
+  data.forEach(line => {
+    file.write(
+      `"${line.author_handle}", "${line.author_name}", "${line.created_at}", "${
+        line.text
+      }", "${line.timestamp}", "${line.tweet_source}"\n`
+    )
+  })
+  file.close()
+}
 
 ;(async () => {
   // Use the `auth.test` method to find information about the installing user
@@ -41,22 +58,17 @@ const currentTime = new Date().toTimeString()
       return {
         author_handle: message.author_subname,
         author_name: message.author_name,
-        test: message.text,
+        created_at: moment(message.ts, 'X').toISOString(),
+        text: message.text.replace(/\r?\n|\r/g, ''),
         timestamp: message.ts,
         tweet_source: message.footer,
       }
     } catch (error) {
       console.error(message)
     }
-    return {
-      author_handle: author_subname,
-      author_name,
-      text,
-      timestamp: ts,
-      tweet_source: footer,
-    }
   })
 
   console.dir(cleanedMessages)
   console.log(cleanedMessages.length)
+  await saveAsCSV('output.csv', cleanedMessages)
 })()
