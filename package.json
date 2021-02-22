@@ -11,7 +11,7 @@
   "author": "Joe Becher <jwbecher@drazisil.com>",
   "license": "MIT",
   "dependencies": {
-    "@slack/web-api": "^5.0.1",
+    "@slack/web-api": "^6.0.0",
     "dotenv-safe": "^6.1.0",
     "moment": "^2.24.0"
   }
