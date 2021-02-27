@@ -13,6 +13,6 @@
   "dependencies": {
     "@slack/web-api": "^6.0.0",
     "dotenv-safe": "^6.1.0",
-    "moment": "^2.24.0"
+    "moment": "^2.29.1"
   }
 }
